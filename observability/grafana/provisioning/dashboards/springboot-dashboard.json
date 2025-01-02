@@ -2843,8 +2843,8 @@
     "list": [
       {
         "current": {
-          "text": "email-module:8080",
-          "value": "email-module:8080"
+          "text": "sample-module:8080",
+          "value": "sample-module:8080"
         },
         "datasource": "fixedprometheusuid",
         "definition": "label_values(instance)",

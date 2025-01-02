@@ -45,6 +45,10 @@ SPRING_PROFILES_ACTIVE | dev | The profile to run with the application. Can be `
 LOGSTASH_HOST | logstash | The name of the logstash container to push the logs from the springboot app. It is only required when using the `logstash` profile. |
 LOGSTASH_PORT | 5000 | The port of the logstash container. It is only required when using the `logstash` profile. |
 TRACING_URL | http://jaeger:4318/v1/traces | The url of the jaeger instance for sending tracing details. |
+SPRING_DATASOURCE_URL | jdbc:mariadb://evocelot-mariadb:3306/sample | The JDBC URL of the DBMS to connect to. |
+SPRING_DATASOURCE_USERNAME | root | The username for connecting to the DBMS. |
+SPRING_DATASOURCE_PASSWORD | admin | The password for connecting to the DBMS. |
+SPRING_DATASOURCE_DRIVER_CLASS_NAME | org.mariadb.jdbc.Driver | The fully qualified name of the JDBC driver class used for the DBMS connection. |
 
 ### Configuring via properties file
 
@@ -61,7 +65,7 @@ The project includes a file named `local.env`, which stores the application deta
 
 Environment variable | Sample value | Description |
 --- | --- | --- |
-APPNAME | email-module | The name of the application |
+APPNAME | sample-module | The name of the application |
 VERSION | 0.0.1-SNAPSHOT | The version number of the application |
 
 ## Building the Docker Image

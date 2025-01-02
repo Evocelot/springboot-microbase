@@ -1,4 +1,4 @@
-package hu.evocelot.email;
+package hu.evocelot.sample;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,6 +13,7 @@ public class Application {
 
     /**
      * The main method that runs the Spring application.
+     * 
      * @param args - the application args.
      */
     public static void main(String[] args) {
