@@ -116,3 +116,7 @@ App monitoring in Grafana:
 ## Contributions
 
 Contributions to the project are welcome! If you find issues or have suggestions for improvements, feel free to open an issue or submit a pull request.
+
+## Documentation
+
+For more documentation, see: [Documentation](/docs/docs.md)
