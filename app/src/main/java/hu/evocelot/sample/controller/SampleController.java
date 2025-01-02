@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import hu.evocelot.sample.action.SampleAction;
 import hu.evocelot.sample.dto.SampleDto;
-import hu.evocelot.sample.model.SampleEntity;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.api.trace.Tracer;
+import io.swagger.v3.oas.annotations.Operation;
 
 /**
  * Sample RestController.
@@ -47,6 +47,7 @@ public class SampleController {
 	 * @return - the "Hello World" string
 	 */
 	@GetMapping("/")
+	@Operation(summary = "Test endpoint", description = "Endpoint for testing tracing, logging and metics.")
 	public String helloWorld() {
 		Span span = tracer.spanBuilder("sampleMethodSpan").startSpan();
 
@@ -64,6 +65,7 @@ public class SampleController {
 	 * @return - with the "created" string.
 	 */
 	@GetMapping("/create-sample")
+	@Operation(summary = "Create sample entity", description = "Endpoint for creating a sample entity.")
 	public ResponseEntity<SampleDto> createSampleEntity() {
 		return sampleAction.sampleAction();
 	}
