@@ -56,7 +56,7 @@ start-local-container: create-podman-network stop-local-container build-docker-i
 		-e SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.mariadb.jdbc.Driver \
 		$(IMAGE_NAME); \
 		\
-		echo "$(APPNAME) started at: http://localhost:8080")
+		echo "$(APPNAME) started at: http://localhost:8080\nThe swagger UI can be accessed at: http://localhost:8080/swagger-ui/index.html")
 
 # Stops the local container.
 stop-local-container:

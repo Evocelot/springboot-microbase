@@ -33,6 +33,8 @@ make start-local-container
 
 By default, the application runs on port `8080`.
 
+The swagger UI can be accessed at: http://localhost:8080/swagger-ui/index.html
+
 ## Configuration
 
 ### Configuring via environment variables
