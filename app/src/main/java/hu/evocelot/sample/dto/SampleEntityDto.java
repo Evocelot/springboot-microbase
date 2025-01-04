@@ -5,20 +5,11 @@ import java.time.OffsetDateTime;
 import hu.evocelot.sample.model.SampleEntity;
 
 /**
- * The sample DTO.
+ * DTO class for {@link SampleEntity} base details.
  * 
  * @author mark.danisovszky
  */
-public class SampleDto {
-
-    public SampleDto() {
-
-    }
-
-    public SampleDto(SampleEntity sampleEntity) {
-        this.setSampleValue(sampleEntity.getSampleValue());
-        this.setSampleDate(sampleEntity.getSampleDate());
-    }
+public class SampleEntityDto {
 
     private String sampleValue;
     private OffsetDateTime sampleDate;

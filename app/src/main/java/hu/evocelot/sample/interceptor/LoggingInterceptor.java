@@ -1,18 +1,16 @@
 package hu.evocelot.sample.interceptor;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.util.ContentCachingRequestWrapper;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,6 +32,11 @@ public class LoggingInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+        // Wrap the request to enable caching.
+        if (!(request instanceof ContentCachingRequestWrapper)) {
+            request = new ContentCachingRequestWrapper(request);
+        }
+
         // Get request id from the request header.
         String requestId = (String) request.getAttribute(REQUEST_ID_HEADER_KEY);
 
@@ -44,7 +47,7 @@ public class LoggingInterceptor implements HandlerInterceptor {
         }
 
         // Read the request details.
-        Map<String, Object> requestDetails = collectRequestDetails(request);
+        Map<String, Object> requestDetails = collectRequestDetails((ContentCachingRequestWrapper) request);
         requestDetails.put(REQUEST_ID_HEADER_KEY, requestId);
 
         try {
@@ -78,7 +81,7 @@ public class LoggingInterceptor implements HandlerInterceptor {
         }
     }
 
-    private Map<String, Object> collectRequestDetails(HttpServletRequest request) {
+    private Map<String, Object> collectRequestDetails(ContentCachingRequestWrapper request) {
         Map<String, Object> details = new HashMap<>();
         details.put("method", request.getMethod());
         details.put("url", request.getRequestURL().toString());
@@ -96,10 +99,9 @@ public class LoggingInterceptor implements HandlerInterceptor {
         details.put("parameters", parameters);
 
         try {
-            BufferedReader reader = request.getReader();
-            String body = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+            String body = new String(request.getContentAsByteArray(), request.getCharacterEncoding());
             details.put("body", body);
-        } catch (IOException e) {
+        } catch (Exception e) {
             details.put("bodyError", "Error reading body: " + e.getMessage());
         }
 

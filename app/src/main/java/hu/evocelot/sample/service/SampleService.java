@@ -13,7 +13,7 @@ import hu.evocelot.sample.repository.SampleRepository;
  * @author mark.danisovszky
  */
 @Service
-public class SampleService extends AbstractBaseService {
+public class SampleService extends AbstractBaseService<SampleEntity> {
 
     @Autowired
     private SampleRepository sampleRepository;

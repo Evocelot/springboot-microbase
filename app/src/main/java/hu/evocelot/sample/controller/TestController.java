@@ -4,12 +4,10 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import hu.evocelot.sample.action.SampleAction;
-import hu.evocelot.sample.dto.SampleDto;
+import hu.evocelot.sample.controller.sample.SampleController;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.opentelemetry.api.trace.Span;
@@ -17,24 +15,21 @@ import io.opentelemetry.api.trace.Tracer;
 import io.swagger.v3.oas.annotations.Operation;
 
 /**
- * Sample RestController.
+ * Test RestController.
  * 
  * @author mark.danisovszky
  */
 @RestController
-public class SampleController {
+public class TestController {
 
 	private static final Logger LOG = LogManager.getLogger(SampleController.class);
 
-	public SampleController(MeterRegistry meterRegistry) {
+	public TestController(MeterRegistry meterRegistry) {
 		// Create custom application metric.
-		this.counter = Counter.builder("sample_endpoint_called")
-				.description("The total number of the sample endpoind call")
+		this.counter = Counter.builder("test_endpoint_called")
+				.description("The total number of the test endpoind call")
 				.register(meterRegistry);
 	}
-
-	@Autowired
-	private SampleAction sampleAction;
 
 	@Autowired
 	private Tracer tracer;
@@ -42,7 +37,7 @@ public class SampleController {
 	private Counter counter;
 
 	/**
-	 * Sample root endpoint.
+	 * Test root endpoint.
 	 * 
 	 * @return - the "Hello World" string
 	 */
@@ -56,17 +51,7 @@ public class SampleController {
 		counter.increment();
 
 		span.end();
-		return "Hello world!";
-	}
 
-	/**
-	 * Calls the sample action.
-	 * 
-	 * @return - with the "created" string.
-	 */
-	@GetMapping("/create-sample")
-	@Operation(summary = "Create sample entity", description = "Endpoint for creating a sample entity.")
-	public ResponseEntity<SampleDto> createSampleEntity() {
-		return sampleAction.sampleAction();
+		return "Hello world!";
 	}
 }
