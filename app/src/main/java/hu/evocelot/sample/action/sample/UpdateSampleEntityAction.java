@@ -11,6 +11,8 @@ import hu.evocelot.sample.converter.SampleEntityConverter;
 import hu.evocelot.sample.converter.SampleEntityWithIdConverter;
 import hu.evocelot.sample.dto.SampleEntityDto;
 import hu.evocelot.sample.dto.SampleEntityWithIdDto;
+import hu.evocelot.sample.exception.BaseException;
+import hu.evocelot.sample.exception.ExceptionType;
 import hu.evocelot.sample.model.SampleEntity;
 import hu.evocelot.sample.service.SampleService;
 
@@ -38,14 +40,15 @@ public class UpdateSampleEntityAction {
      * @param sampleEntityDto - the updated details of the entity.
      * @return - with {@link ResponseEntity} that contains the
      *         {@link SampleEntityWithIdDto}.
-     * @throws Exception - when the entity not found.
+     * @throws BaseException - when the entity not found.
      */
     public ResponseEntity<SampleEntityWithIdDto> updateSampleEntity(String id,
-            SampleEntityDto sampleEntityDto) throws Exception {
+            SampleEntityDto sampleEntityDto) throws BaseException {
         // Find the entity to update.
         Optional<SampleEntity> optionalSampleEntity = sampleService.findById(id);
         if (optionalSampleEntity.isEmpty()) {
-            throw new Exception("Cannot find sample entity with id :" + id);
+            throw new BaseException(HttpStatus.BAD_REQUEST, ExceptionType.SAMPLE_ENTITY_NOT_FOUND,
+                    "Cannot find sample entity with id :" + id);
         }
 
         // Update the entity details.
