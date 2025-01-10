@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 
 import hu.evocelot.sample.converter.SampleEntityWithIdConverter;
 import hu.evocelot.sample.dto.SampleEntityWithIdDto;
+import hu.evocelot.sample.exception.BaseException;
+import hu.evocelot.sample.exception.ExceptionType;
 import hu.evocelot.sample.model.SampleEntity;
 import hu.evocelot.sample.service.SampleService;
 
@@ -33,11 +35,12 @@ public class DeleteSampleEntityAction {
      * @return - with {@link ResponseEntity} that contains the
      *         {@link SampleEntityWithIdDto}.
      */
-    public ResponseEntity<SampleEntityWithIdDto> deleteSampleEntity(String id) throws Exception {
+    public ResponseEntity<SampleEntityWithIdDto> deleteSampleEntity(String id) throws BaseException {
         // Find the entity to delete.
         Optional<SampleEntity> optionalSampleEntity = sampleService.findById(id);
         if (optionalSampleEntity.isEmpty()) {
-            throw new Exception("Cannot find sample entity with id :" + id);
+            throw new BaseException(HttpStatus.NOT_FOUND, ExceptionType.SAMPLE_ENTITY_NOT_FOUND,
+                    "Cannot find sample entity with id :" + id);
         }
 
         // Store the details for the response.

@@ -46,6 +46,7 @@ start-local-container: create-podman-network stop-local-container build-docker-i
 		--name $(APPNAME) \
 		--network $(NETWORK_NAME) \
 		-p 8080:8080 \
+		-e TZ=UTC \
 		-e LOGSTASH_HOST=$(LOGSTASH_HOST) \
 		-e LOGSTASH_PORT=$(LOGSTASH_PORT) \
 		-e SPRING_PROFILES_ACTIVE=logstash \
@@ -73,6 +74,7 @@ start-elk-stack: create-podman-network stop-elk-stack
 		--network $(NETWORK_NAME) \
 		-p 9200:9200 \
 		-p 9300:9300 \
+		-e TZ=UTC \
 		-e "discovery.type=single-node" \
 		-e "xpack.security.enabled=false" \
 		-e "xpack.security.http.ssl.enabled=false" \
@@ -88,6 +90,7 @@ start-elk-stack: create-podman-network stop-elk-stack
 		-p $(LOGSTASH_PORT):5000 \
 		-p 5044:5044 \
 		-p 9600:9600 \
+		-e TZ=UTC \
 		-v ./elk/logstash/pipeline:/usr/share/logstash/pipeline \
 		logstash:8.16.2; \
 		\
@@ -99,6 +102,7 @@ start-elk-stack: create-podman-network stop-elk-stack
 		--name kibana \
 		--network $(NETWORK_NAME) \
 		-p 5601:5601 \
+		-e TZ=UTC \
 		kibana:8.17.0; \
 		\
 		echo "Kibana started at: http://localhost:5601")
@@ -118,6 +122,7 @@ start-observability: create-podman-network stop-observability
 		--network $(NETWORK_NAME) \
 		-p 16686:16686 \
 		-p $(JAEGER_TRACING_PORT):4317 \
+		-e TZ=UTC \
 		-e COLLECTOR_OTLP_ENABLED=true \
 		jaegertracing/all-in-one:1.64.0; \
 		\
@@ -129,6 +134,7 @@ start-observability: create-podman-network stop-observability
 		--name prometheus \
 		--network $(NETWORK_NAME) \
 		-p 9090:9090 \
+		-e TZ=UTC \
 		-v ./observability/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml \
 		prom/prometheus:v3.0.1; \
 		\
@@ -140,6 +146,7 @@ start-observability: create-podman-network stop-observability
 		--name grafana \
 		--network $(NETWORK_NAME) \
 		-p 3000:3000 \
+		-e TZ=UTC \
 		-e "GF_SECURITY_ADMIN_PASSWORD=admin" \
 		-v ./observability/grafana/provisioning:/etc/grafana/provisioning \
 		grafana/grafana:11.4.0; \

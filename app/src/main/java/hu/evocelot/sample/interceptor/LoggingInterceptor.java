@@ -19,7 +19,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * Logging interceptor for handling request and response logging.
+ * Interceptor for logging HTTP request and response details.
+ * <p>
+ * This class intercepts incoming HTTP requests and outgoing responses to log
+ * relevant details such as request method, URL, headers, parameters, body,
+ * response status, and response headers. It also generates a unique request ID
+ * for each request to track the flow through the system.
+ * </p>
  * 
  * @author mark.danisovszky
  */
@@ -30,26 +36,37 @@ public class LoggingInterceptor implements HandlerInterceptor {
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     private static final String REQUEST_ID_HEADER_KEY = "REQUEST-ID";
 
+    /**
+     * Intercepts the request before it reaches the handler.
+     * <p>
+     * This method generates or retrieves a unique request ID, collects the details
+     * of the incoming request, logs the details, and adds the request ID to the
+     * response headers.
+     * </p>
+     * 
+     * @param request  - the incoming HTTP request.
+     * @param response - the outgoing HTTP response.
+     * @param handler  - the handler that will process the request.
+     * @return - {@code true} to allow the request to continue; {@code false} to
+     *         block the request.
+     */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        // Wrap the request to enable caching.
+        // Wrap the request to enable caching for reading the request body.
         if (!(request instanceof ContentCachingRequestWrapper)) {
             request = new ContentCachingRequestWrapper(request);
         }
 
-        // Get request id from the request header.
+        // Retrieve or generate a unique request ID.
         String requestId = (String) request.getAttribute(REQUEST_ID_HEADER_KEY);
-
-        // If the request does not contains request id, generate a new one.
         if (Objects.isNull(requestId)) {
             requestId = UUID.randomUUID().toString();
             request.setAttribute(REQUEST_ID_HEADER_KEY, requestId);
         }
 
-        // Read the request details.
+        // Collect and log request details.
         Map<String, Object> requestDetails = collectRequestDetails((ContentCachingRequestWrapper) request);
         requestDetails.put(REQUEST_ID_HEADER_KEY, requestId);
-
         try {
             String jsonLog = OBJECT_MAPPER.writeValueAsString(requestDetails);
             LOG.info("Request accepted: {}", jsonLog);
@@ -57,18 +74,30 @@ public class LoggingInterceptor implements HandlerInterceptor {
             LOG.error("Error serializing request details to JSON:", e);
         }
 
-        // Add request id to the response headers.
+        // Add the request ID to the response headers.
         response.addHeader(REQUEST_ID_HEADER_KEY, requestId);
 
         return true;
     }
 
+    /**
+     * Handles logging of the response details after the request has been processed.
+     * <p>
+     * This method logs the response status, headers, and any exception that may
+     * have occurred during the processing of the request.
+     * </p>
+     * 
+     * @param request  - the incoming HTTP request.
+     * @param response - the outgoing HTTP response.
+     * @param handler  - the handler that processed the request.
+     * @param ex       - any exception thrown during the request processing (can be
+     *                 {@code null}).
+     */
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler,
             Exception ex) {
-        // Read the response details.
+        // Collect and log response details.
         Map<String, Object> responseDetails = collectResponseDetails(response);
-
         if (ex != null) {
             responseDetails.put("exception", ex.getMessage());
         }
@@ -81,12 +110,23 @@ public class LoggingInterceptor implements HandlerInterceptor {
         }
     }
 
+    /**
+     * Collects the details of the HTTP request.
+     * <p>
+     * This method extracts the request method, URL, query parameters, headers, and
+     * body from the request for logging purposes.
+     * </p>
+     * 
+     * @param request - the wrapped HTTP request containing the details to collect.
+     * @return - a {@link Map} containing the collected request details.
+     */
     private Map<String, Object> collectRequestDetails(ContentCachingRequestWrapper request) {
         Map<String, Object> details = new HashMap<>();
         details.put("method", request.getMethod());
         details.put("url", request.getRequestURL().toString());
         details.put("query", request.getQueryString());
 
+        // Collect request headers.
         Map<String, String> headers = new HashMap<>();
         Enumeration<String> headerNames = request.getHeaderNames();
         while (headerNames.hasMoreElements()) {
@@ -95,9 +135,11 @@ public class LoggingInterceptor implements HandlerInterceptor {
         }
         details.put("headers", headers);
 
+        // Collect request parameters.
         Map<String, String[]> parameters = request.getParameterMap();
         details.put("parameters", parameters);
 
+        // Collect request body, if available.
         try {
             String body = new String(request.getContentAsByteArray(), request.getCharacterEncoding());
             details.put("body", body);
@@ -108,10 +150,20 @@ public class LoggingInterceptor implements HandlerInterceptor {
         return details;
     }
 
+    /**
+     * Collects the details of the HTTP response.
+     * <p>
+     * This method extracts the response status and headers for logging purposes.
+     * </p>
+     * 
+     * @param response - the HTTP response containing the details to collect.
+     * @return - a {@link Map} containing the collected response details.
+     */
     private Map<String, Object> collectResponseDetails(HttpServletResponse response) {
         Map<String, Object> details = new HashMap<>();
         details.put("status", response.getStatus());
 
+        // Collect response headers.
         Map<String, String> headers = new HashMap<>();
         for (String headerName : response.getHeaderNames()) {
             headers.put(headerName, response.getHeader(headerName));

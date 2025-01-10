@@ -1,6 +1,7 @@
 package hu.evocelot.sample.controller.sample;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,8 +51,9 @@ public class SampleController {
 	 */
 	@GetMapping("/{id}")
 	@Operation(summary = SampleControllerInformation.GET_SAMPLE_SUMMARY, description = SampleControllerInformation.GET_SAMPLE_DESCRIPTION)
-	public ResponseEntity<SampleEntityWithIdDto> getSampleEntity(@PathVariable String sampleEntityId) throws Exception {
-		return getSampleEntityAction.getSampleEntity(sampleEntityId);
+	public ResponseEntity<SampleEntityWithIdDto> getSampleEntity(@Param(value = "id") String id)
+			throws Exception {
+		return getSampleEntityAction.getSampleEntity(id);
 	}
 
 	/**
