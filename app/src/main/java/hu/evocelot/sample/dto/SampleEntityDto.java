@@ -3,6 +3,7 @@ package hu.evocelot.sample.dto;
 import java.time.OffsetDateTime;
 
 import hu.evocelot.sample.model.SampleEntity;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * DTO class for {@link SampleEntity} base details.
@@ -11,7 +12,10 @@ import hu.evocelot.sample.model.SampleEntity;
  */
 public class SampleEntityDto {
 
+    @Schema(description = "The sample value", required = true)
     private String sampleValue;
+
+    @Schema(description = "The sample date in UTC", example = "2025-01-01T10:00:00+00:00", required = true)
     private OffsetDateTime sampleDate;
 
     public String getSampleValue() {

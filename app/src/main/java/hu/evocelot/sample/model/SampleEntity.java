@@ -6,13 +6,15 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
+import jakarta.persistence.Table;
 
 /**
  * The SampleEntity.
  * 
  * @author mark.danisovszky
  */
-@Entity(name = "SAMPLE")
+@Entity
+@Table(name = "SAMPLE")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class SampleEntity extends AbstractIdentifiedAuditEntity {
 
