@@ -40,7 +40,7 @@ public class GetSampleEntityAction {
         // Find the entity based on the id.
         Optional<SampleEntity> optionalSampleEntity = sampleService.findById(id);
         if (optionalSampleEntity.isEmpty()) {
-            throw new BaseException(HttpStatus.BAD_REQUEST, ExceptionType.SAMPLE_ENTITY_NOT_FOUND,
+            throw new BaseException(HttpStatus.NOT_FOUND, ExceptionType.SAMPLE_ENTITY_NOT_FOUND,
                     "Cannot find sample entity with id :" + id);
         }
 
