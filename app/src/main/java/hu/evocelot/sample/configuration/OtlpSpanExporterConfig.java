@@ -45,10 +45,17 @@ public class OtlpSpanExporterConfig {
      */
     @Bean
     OtlpGrpcSpanExporter otlpGrpcSpanExporter() {
-        // Create and return the OtlpGrpcSpanExporter, configured with the tracing URL
-        // from JaegerProperties
-        return OtlpGrpcSpanExporter.builder()
-                .setEndpoint(jaegerProperties.getTracingUrl())
-                .build();
+        if (jaegerProperties.getTracingEnabled().equals("true")) {
+            String tracingUrl = jaegerProperties.getTracingUrl();
+
+            // Create and return the OtlpGrpcSpanExporter, configured with the tracing URL
+            // from JaegerProperties
+            return OtlpGrpcSpanExporter.builder()
+                    .setEndpoint(tracingUrl)
+                    .build();
+
+        }
+
+        return null;
     }
 }

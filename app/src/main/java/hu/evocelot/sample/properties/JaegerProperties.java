@@ -16,8 +16,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class JaegerProperties {
 
-    @Value("${TRACING_URL}")
+    @Value("${TRACING_URL:}")
     private String tracingUrl;
+
+    @Value("${TRACING_ENABLED:}")
+    private String tracingEnabled;
 
     public String getTracingUrl() {
         return tracingUrl;
@@ -25,5 +28,13 @@ public class JaegerProperties {
 
     public void setTracingUrl(String tracingUrl) {
         this.tracingUrl = tracingUrl;
+    }
+
+    public String getTracingEnabled() {
+        return tracingEnabled;
+    }
+
+    public void setTracingEnabled(String tracingEnabled) {
+        this.tracingEnabled = tracingEnabled;
     }
 }
