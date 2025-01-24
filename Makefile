@@ -47,9 +47,10 @@ start-local-container: create-podman-network stop-local-container build-docker-i
 		--network $(NETWORK_NAME) \
 		-p 8080:8080 \
 		-e TZ=UTC \
+		-e LOGSTASH_ENABLED="true" \
 		-e LOGSTASH_HOST=$(LOGSTASH_HOST) \
 		-e LOGSTASH_PORT=$(LOGSTASH_PORT) \
-		-e SPRING_PROFILES_ACTIVE=logstash \
+		-e TRACING_ENABLED="true" \
 		-e TRACING_URL=http://$(JAEGER_HOST):$(JAEGER_TRACING_PORT)/v1/traces \
 		-e SPRING_DATASOURCE_URL=jdbc:mariadb://evocelot-mariadb:3306/sample \
 		-e SPRING_DATASOURCE_USERNAME=root \
