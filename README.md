@@ -44,7 +44,7 @@ This command starts the following containers:
 - grafana
 - sample-module
 
-By default, the tickr-module runs on port `8080`.
+By default, the sample-module runs on port `8080`.
 The swagger UI can be accessed at: http://localhost:8080/swagger-ui/index.html
 
 ### Run the module only
@@ -78,7 +78,7 @@ The project integrates the following tools for monitoring and observability:
 - Prometheus: Collects and stores application metrics.
 - Grafana: Visualizes metrics in an intuitive interface.
 
-> **_NOTE:_** To enable tracing collection, set the `TRACING__ENABLED` environment variable to `"true"` in the container’s startup configuration.
+> **_NOTE:_** To enable tracing collection, set the `TRACING_ENABLED` environment variable to `"true"` in the container’s startup configuration.
 
 View tracing informations in Jaeger:
 ![View tracing informations in Jaeger](img/jaeger.png)
