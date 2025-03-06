@@ -78,7 +78,7 @@ make start-local-container
 
 ## Documentation
 
-Detailed documentation is available here: [Documentation](/docs/docs.md)
+Detailed documentation is available here: [Documentation](/docs/index.md)
 
 ## Contributions
 
