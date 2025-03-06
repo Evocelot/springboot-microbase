@@ -9,18 +9,32 @@ For designing the `database schema`, we recommend using the following project: [
 ## Technologies used
 
 - Java 21
-- SpringBoot 3.4.2
+- SpringBoot 3.4.3
 - Docker / Podman
 - Make
-- Elasticsearch
-- Logstash
-- Kibana
-- Jaeger
-- Prometheus
-- Grafana
 
+## Core functions
 
-## How to run:
+- A Makefile simplifies the application's startup process.
+- The application can be easily packaged as a Docker image.
+- Built-in logging, metrics, and tracing (can be enabled/disabled as needed):
+    - Centralized log collection using ELK Stack (Elasticsearch, Logstash, Kibana).
+    - Metrics monitoring with Prometheus and Grafana.
+    - Distributed tracing support with Jaeger.
+- Provides sample endpoints for managing example entities.
+- Includes basic error handling.
+- Automatically logs all incoming requests and outgoing responses.
+- Supports JPA-based database integration.
+
+## Prerequisites
+
+To ensure the application functions correctly, you must first `start the database container`.
+
+To set up the database container properly, the following project will assist you: [Evocelot/liquibase-base](https://github.com/Evocelot/liquibase-base)
+
+The liquibase-base project helps start the appropriate database container and create the necessary database schema.
+
+## How to run
 
 The project includes a `Makefile` to simplify application startup. Each Makefile target can be executed independently.
 
@@ -31,7 +45,9 @@ The project includes a `Makefile` to simplify application startup. Each Makefile
 To run the application along with ELK stack and observability features, execute:
 
 ```bash
-make all
+make start-monitoring-containers
+make start-kafka
+make start-local-container
 ```
 
 This command starts the following containers:
@@ -42,6 +58,9 @@ This command starts the following containers:
 - jaeger
 - prometheus
 - grafana
+- kafka
+- zookeeper
+- kafka-ui
 - sample-module
 
 By default, the sample-module runs on port `8080`.
@@ -55,36 +74,7 @@ To run only the module only:
 make start-local-container
 ```
 
-> **_NOTE:_** To disable log collection and tracing, manually set the `LOGSTASH_ENABLED` and `TRACING_ENABLED` environment variables to `"false"` in the `Makefile`.
-
-## Logging
-
-The project utilizes the `ELK stack` for `centralized log collection` and monitoring:
-
-- Logstash: Extracts logs from the application and forwards them to Elasticsearch.
-- Elasticsearch: Stores, indexes, and makes the application's logs searchable.
-- Kibana: Provides a user interface for managing the logs stored in Elasticsearch.
-
-> **_NOTE:_** To enable log forwarding to Logstash, set the `LOGSTASH_ENABLED` environment variable to `"true"` in the container’s startup configuration.
-
-View logs in Kibana:
-![View logs in Kibana](img/kibana.png)
-
-## Monitoring
-
-The project integrates the following tools for monitoring and observability:
-
-- Jaeger: Collects and displays tracing information.
-- Prometheus: Collects and stores application metrics.
-- Grafana: Visualizes metrics in an intuitive interface.
-
-> **_NOTE:_** To enable tracing collection, set the `TRACING_ENABLED` environment variable to `"true"` in the container’s startup configuration.
-
-View tracing informations in Jaeger:
-![View tracing informations in Jaeger](img/jaeger.png)
-
-App monitoring in Grafana:
-![App monitoring in Grafana](img/grafana.png)
+> **_NOTE:_** To disable log collection, tracing and communication via kafka, manually set the `LOGSTASH_ENABLED`,  `TRACING_ENABLED` and `KAFKA_ENABLED` environment variables to `"false"` in the `Makefile`.
 
 ## Documentation
 
