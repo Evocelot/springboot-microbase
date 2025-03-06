@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import hu.evocelot.sample.action.sample.CreateSampleEntityAction;
 import hu.evocelot.sample.action.sample.DeleteSampleEntityAction;
 import hu.evocelot.sample.action.sample.GetSampleEntityAction;
@@ -62,11 +64,12 @@ public class SampleController {
 	 * @param sampleEntityDto - Data for the new sample.
 	 * @return - with {@link ResponseEntity} that contains the
 	 *         {@link SampleEntityWithIdDto}.
+	 * @throws JsonProcessingException
 	 */
 	@PostMapping
 	@Operation(summary = SampleControllerInformation.CREATE_SAMPLE_SUMMARY, description = SampleControllerInformation.CREATE_SAMPLE_DESCRIPTION)
 	public ResponseEntity<SampleEntityWithIdDto> createSampleEntity(
-			@RequestBody SampleEntityDto sampleEntityDto) {
+			@RequestBody SampleEntityDto sampleEntityDto) throws JsonProcessingException {
 		return createSampleEntityAction.createSampleEntity(sampleEntityDto);
 	}
 
