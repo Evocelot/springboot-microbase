@@ -16,10 +16,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import hu.evocelot.sample.dto.SampleEntityDto;
 import hu.evocelot.sample.dto.SampleEntityWithIdDto;
-import hu.evocelot.sample.service.sample.CreateSampleEntityAction;
-import hu.evocelot.sample.service.sample.DeleteSampleEntityAction;
-import hu.evocelot.sample.service.sample.GetSampleEntityAction;
-import hu.evocelot.sample.service.sample.UpdateSampleEntityAction;
+import hu.evocelot.sample.service.sample.CreateSampleEntityService;
+import hu.evocelot.sample.service.sample.DeleteSampleEntityService;
+import hu.evocelot.sample.service.sample.GetSampleEntityService;
+import hu.evocelot.sample.service.sample.UpdateSampleEntityService;
 import io.swagger.v3.oas.annotations.Operation;
 
 /**
@@ -32,16 +32,16 @@ import io.swagger.v3.oas.annotations.Operation;
 public class SampleController {
 
 	@Autowired
-	private GetSampleEntityAction getSampleEntityAction;
+	private GetSampleEntityService getSampleEntityService;
 
 	@Autowired
-	private CreateSampleEntityAction createSampleEntityAction;
+	private CreateSampleEntityService createSampleEntityService;
 
 	@Autowired
-	private UpdateSampleEntityAction updateSampleEntityAction;
+	private UpdateSampleEntityService updateSampleEntityService;
 
 	@Autowired
-	private DeleteSampleEntityAction deleteSampleEntityAction;
+	private DeleteSampleEntityService deleteSampleEntityService;
 
 	/**
 	 * Get a sample entity by ID.
@@ -55,7 +55,7 @@ public class SampleController {
 	@Operation(summary = SampleControllerInformation.GET_SAMPLE_SUMMARY, description = SampleControllerInformation.GET_SAMPLE_DESCRIPTION)
 	public ResponseEntity<SampleEntityWithIdDto> getSampleEntity(@Param(value = "id") String id)
 			throws Exception {
-		return getSampleEntityAction.getSampleEntity(id);
+		return getSampleEntityService.getSampleEntity(id);
 	}
 
 	/**
@@ -70,7 +70,7 @@ public class SampleController {
 	@Operation(summary = SampleControllerInformation.CREATE_SAMPLE_SUMMARY, description = SampleControllerInformation.CREATE_SAMPLE_DESCRIPTION)
 	public ResponseEntity<SampleEntityWithIdDto> createSampleEntity(
 			@RequestBody SampleEntityDto sampleEntityDto) throws JsonProcessingException {
-		return createSampleEntityAction.createSampleEntity(sampleEntityDto);
+		return createSampleEntityService.createSampleEntity(sampleEntityDto);
 	}
 
 	/**
@@ -85,7 +85,7 @@ public class SampleController {
 	@Operation(summary = SampleControllerInformation.UPDATE_SAMPLE_SUMMARY, description = SampleControllerInformation.UPDATE_SAMPLE_DESCRIPTION)
 	public ResponseEntity<SampleEntityWithIdDto> updateSampleEntity(@PathVariable String id,
 			@RequestBody SampleEntityDto sampleEntityDto) throws Exception {
-		return updateSampleEntityAction.updateSampleEntity(id, sampleEntityDto);
+		return updateSampleEntityService.updateSampleEntity(id, sampleEntityDto);
 	}
 
 	/**
@@ -99,6 +99,6 @@ public class SampleController {
 	@DeleteMapping("/{id}")
 	@Operation(summary = SampleControllerInformation.DELETE_SAMPLE_SUMMARY, description = SampleControllerInformation.DELETE_SAMPLE_DESCRIPTION)
 	public ResponseEntity<SampleEntityWithIdDto> deleteSampleEntity(@PathVariable String id) throws Exception {
-		return deleteSampleEntityAction.deleteSampleEntity(id);
+		return deleteSampleEntityService.deleteSampleEntity(id);
 	}
 }
