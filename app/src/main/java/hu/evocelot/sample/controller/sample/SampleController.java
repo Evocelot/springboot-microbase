@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-import hu.evocelot.sample.action.sample.CreateSampleEntityAction;
-import hu.evocelot.sample.action.sample.DeleteSampleEntityAction;
-import hu.evocelot.sample.action.sample.GetSampleEntityAction;
-import hu.evocelot.sample.action.sample.UpdateSampleEntityAction;
 import hu.evocelot.sample.dto.SampleEntityDto;
 import hu.evocelot.sample.dto.SampleEntityWithIdDto;
+import hu.evocelot.sample.service.sample.CreateSampleEntityAction;
+import hu.evocelot.sample.service.sample.DeleteSampleEntityAction;
+import hu.evocelot.sample.service.sample.GetSampleEntityAction;
+import hu.evocelot.sample.service.sample.UpdateSampleEntityAction;
 import io.swagger.v3.oas.annotations.Operation;
 
 /**

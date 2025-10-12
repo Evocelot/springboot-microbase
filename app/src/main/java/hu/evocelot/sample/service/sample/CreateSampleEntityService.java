@@ -1,9 +1,9 @@
-package hu.evocelot.sample.action.sample;
+package hu.evocelot.sample.service.sample;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,12 +19,12 @@ import hu.evocelot.sample.properties.KafkaProperties;
 import hu.evocelot.sample.service.SampleService;
 
 /**
- * Sample action class for creating sample entities.
+ * Sample service class for creating sample entities.
  * 
  * @author mark.danisovszky
  */
-@Component
-public class CreateSampleEntityAction {
+@Service
+public class CreateSampleEntityService {
 
     @Autowired
     private SampleEntityConverter sampleEntityConverter;

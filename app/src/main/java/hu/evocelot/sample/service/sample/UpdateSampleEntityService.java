@@ -1,11 +1,11 @@
-package hu.evocelot.sample.action.sample;
+package hu.evocelot.sample.service.sample;
 
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import hu.evocelot.sample.converter.SampleEntityConverter;
 import hu.evocelot.sample.converter.SampleEntityWithIdConverter;
@@ -17,12 +17,12 @@ import hu.evocelot.sample.model.SampleEntity;
 import hu.evocelot.sample.service.SampleService;
 
 /**
- * Sample action class for updating sample entities.
+ * Sample service class for updating sample entities.
  * 
  * @author mark.danisovszky
  */
-@Component
-public class UpdateSampleEntityAction {
+@Service
+public class UpdateSampleEntityService {
 
     @Autowired
     private SampleEntityConverter sampleEntityConverter;
