@@ -1,6 +1,5 @@
 package hu.evocelot.sample.controller.sample;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,17 +30,20 @@ import io.swagger.v3.oas.annotations.Operation;
 @RequestMapping("/sample")
 public class SampleController {
 
-	@Autowired
 	private GetSampleEntityService getSampleEntityService;
-
-	@Autowired
 	private CreateSampleEntityService createSampleEntityService;
-
-	@Autowired
 	private UpdateSampleEntityService updateSampleEntityService;
-
-	@Autowired
 	private DeleteSampleEntityService deleteSampleEntityService;
+
+	public SampleController(GetSampleEntityService getSampleEntityService,
+			CreateSampleEntityService createSampleEntityService,
+			UpdateSampleEntityService updateSampleEntityService,
+			DeleteSampleEntityService deleteSampleEntityService) {
+		this.getSampleEntityService = getSampleEntityService;
+		this.createSampleEntityService = createSampleEntityService;
+		this.updateSampleEntityService = updateSampleEntityService;
+		this.deleteSampleEntityService = deleteSampleEntityService;
+	}
 
 	/**
 	 * Get a sample entity by ID.

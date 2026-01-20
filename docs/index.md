@@ -29,16 +29,7 @@ SPRING_DATASOURCE_DRIVER_CLASS_NAME | org.mariadb.jdbc.Driver | The fully qualif
 
 If the `KAFKA_ENABLED` environment variable is set to `"true"`, the following event will be triggered.
 
-### file-saved
-
-Upon a successful sample entity save, the metadata of the saved entity will be published to the `sample-saved` topic in JSON format. 
-
-Example message:
-```json
-{
-	...
-}
-```
+...
 
 ## Logging
 

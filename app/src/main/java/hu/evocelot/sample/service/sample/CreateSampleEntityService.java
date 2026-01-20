@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import hu.evocelot.sample.accessor.SampleEntityAccessor;
 import hu.evocelot.sample.converter.SampleEntityConverter;
 import hu.evocelot.sample.converter.SampleEntityWithIdConverter;
 import hu.evocelot.sample.dto.SampleEntityDto;
@@ -16,7 +17,6 @@ import hu.evocelot.sample.kafka.KafkaMessageProducer;
 import hu.evocelot.sample.kafka.KafkaTopics;
 import hu.evocelot.sample.model.SampleEntity;
 import hu.evocelot.sample.properties.KafkaProperties;
-import hu.evocelot.sample.service.SampleService;
 
 /**
  * Sample service class for creating sample entities.
@@ -26,23 +26,26 @@ import hu.evocelot.sample.service.SampleService;
 @Service
 public class CreateSampleEntityService {
 
-    @Autowired
     private SampleEntityConverter sampleEntityConverter;
-
-    @Autowired
     private SampleEntityWithIdConverter sampleEntityWithIdConverter;
-
-    @Autowired
-    private SampleService sampleService;
-
-    @Autowired
+    private SampleEntityAccessor sampleService;
     private KafkaProperties kafkaProperties;
-
-    @Autowired
     private ObjectMapper objectMapper;
 
     @Autowired(required = false)
     private KafkaMessageProducer kafkaMessageProducer;
+
+    public CreateSampleEntityService(SampleEntityConverter sampleEntityConverter,
+            SampleEntityWithIdConverter sampleEntityWithIdConverter,
+            SampleEntityAccessor sampleService,
+            KafkaProperties kafkaProperties,
+            ObjectMapper objectMapper) {
+        this.sampleEntityConverter = sampleEntityConverter;
+        this.sampleEntityWithIdConverter = sampleEntityWithIdConverter;
+        this.sampleService = sampleService;
+        this.kafkaProperties = kafkaProperties;
+        this.objectMapper = objectMapper;
+    }
 
     /**
      * Creates a new sample entity.

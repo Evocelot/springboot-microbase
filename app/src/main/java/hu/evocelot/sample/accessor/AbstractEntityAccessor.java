@@ -1,4 +1,4 @@
-package hu.evocelot.sample.service;
+package hu.evocelot.sample.accessor;
 
 import java.math.BigInteger;
 import java.text.MessageFormat;
@@ -16,7 +16,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import hu.evocelot.sample.model.AbstractIdentifiedAuditEntity;
 
 /**
- * Base class for all services that provide common functionality
+ * Base class for all accessors that provide common functionality
  * such as save, saveAll, findById, and delete operations.
  * It is intended to be extended by concrete service classes to manage entities
  * that extend {@link AbstractIdentifiedAuditEntity}.
@@ -28,9 +28,9 @@ import hu.evocelot.sample.model.AbstractIdentifiedAuditEntity;
  *            {@link AbstractIdentifiedAuditEntity}
  * @author mark.danisovszky
  */
-public abstract class AbstractBaseService<T extends AbstractIdentifiedAuditEntity> {
+public abstract class AbstractEntityAccessor<T extends AbstractIdentifiedAuditEntity> {
 
-    private static final Logger LOG = LogManager.getLogger(AbstractBaseService.class);
+    private static final Logger LOG = LogManager.getLogger(AbstractEntityAccessor.class);
 
     /**
      * Provides the JpaRepository that will be used for managing entities.

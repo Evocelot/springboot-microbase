@@ -1,6 +1,5 @@
 package hu.evocelot.sample.converter;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import hu.evocelot.sample.dto.SampleEntityWithIdDto;
@@ -15,8 +14,11 @@ import hu.evocelot.sample.model.SampleEntity;
 @Component
 public class SampleEntityWithIdConverter implements EntityConverter<SampleEntity, SampleEntityWithIdDto> {
 
-    @Autowired
     private SampleEntityConverter sampleEntityConverter;
+
+    public SampleEntityWithIdConverter(SampleEntityConverter sampleEntityConverter) {
+        this.sampleEntityConverter = sampleEntityConverter;
+    }
 
     @Override
     public SampleEntityWithIdDto convert(SampleEntity sourceEntity) {

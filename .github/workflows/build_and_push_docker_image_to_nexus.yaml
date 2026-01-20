@@ -43,8 +43,8 @@ jobs:
       - name: 📄 Find generated JAR
         id: find_jar
         run: |
-          # Find the first JAR that contains 'formr' in its name
-          JAR_FILE=$(find . -type f -name "*.jar" | grep "formr" | head -n1)
+          # Find the first JAR that contains 'sample' in its name
+          JAR_FILE=$(find . -type f -name "*.jar" | grep "sample" | head -n1)
           if [ -z "$JAR_FILE" ]; then
             echo "Error: No JAR found!"
             exit 1

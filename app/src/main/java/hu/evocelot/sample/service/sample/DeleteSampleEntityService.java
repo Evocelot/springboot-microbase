@@ -2,17 +2,16 @@ package hu.evocelot.sample.service.sample;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import hu.evocelot.sample.accessor.SampleEntityAccessor;
 import hu.evocelot.sample.converter.SampleEntityWithIdConverter;
 import hu.evocelot.sample.dto.SampleEntityWithIdDto;
 import hu.evocelot.sample.exception.BaseException;
 import hu.evocelot.sample.exception.ExceptionType;
 import hu.evocelot.sample.model.SampleEntity;
-import hu.evocelot.sample.service.SampleService;
 
 /**
  * Sample service class for deleting sample entities.
@@ -22,11 +21,14 @@ import hu.evocelot.sample.service.SampleService;
 @Service
 public class DeleteSampleEntityService {
 
-    @Autowired
     private SampleEntityWithIdConverter sampleEntityWithIdConverter;
+    private SampleEntityAccessor sampleService;
 
-    @Autowired
-    private SampleService sampleService;
+    public DeleteSampleEntityService(SampleEntityWithIdConverter sampleEntityWithIdConverter,
+            SampleEntityAccessor sampleService) {
+        this.sampleEntityWithIdConverter = sampleEntityWithIdConverter;
+        this.sampleService = sampleService;
+    }
 
     /**
      * Deletes a sample entity by ID.
